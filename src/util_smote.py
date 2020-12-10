@@ -9,7 +9,7 @@ from imblearn.pipeline import Pipeline
 # If you set the plot parameter to "True", the function will also graph the frequencies for a pictorial veiw of any imbalance
 
 
-def display_frequencies(target=None, plot=True):
+def display_frequencies(target=None, plot=True, figsize=(10, 8)):
     labels, frequencies = np.unique(target, return_counts=True)
 
     for i in range(len(labels)):
@@ -20,7 +20,7 @@ def display_frequencies(target=None, plot=True):
 
     print(f"Total: {np.sum(frequencies)}")
     if(plot):
-        plt.figure(figsize=(10, 8))
+        plt.figure(figsize=figsize)
         plt.xlabel("Class")
         plt.ylabel("Frequency")
         plt.title("Frequency of Target Classes in Dataset")
@@ -38,3 +38,18 @@ def smote_data(X, y, sampling_strategy=None):
         oversample = SMOTE(sampling_strategy=sampling_strategy)
     X_smoted, y_smoted = oversample.fit_resample(X, y)
     return X_smoted, y_smoted
+
+
+def under_sample(X, y, majority_multiplier=0.5):
+    labels, frequencies = np.unique(y, return_counts=True)
+    sample_strategy = {}
+
+    for label in labels:
+        sample_strategy[label] = int(frequencies[label])
+
+    sample_strategy[2] = int(sample_strategy[2] * majority_multiplier)
+
+    undersampler = RandomUnderSampler(sampling_strategy=sample_strategy)
+
+    X_under_sampled, y_under_sampled = undersampler.fit_resample(X, y)
+    return X_under_sampled, y_under_sampled

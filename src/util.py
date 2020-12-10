@@ -159,24 +159,24 @@ def k_fold_train(model, data, folds=5, is_NN=False, verbose=0, epochs=128):
         fold += 1
 
 
-# From ex6Part2 (Lab 6 of Introduction to AI module)
-# Convert a Pandas dataframe to the x,y inputs that TensorFlow needs
-def to_xy(df, target):
-    result = []
-    for x in df.columns:
-        if x != target:
-            result.append(x)
-    # find out the type of the target column.  Is it really this hard? :(
-    target_type = df[target].dtypes
-    target_type = target_type[0] if hasattr(
-        target_type, '__iter__') else target_type
-    # Encode to int for classification, float otherwise. TensorFlow likes 32 bits.
-    if target_type in (np.int64, np.int32):
-        # Classification
-        dummies = pd.get_dummies(df[target])
-        return df[result].values.astype(np.float32), dummies.values.astype(np.float32)
-    # Regression
-    return df[result].values.astype(np.float32), df[[target]].values.astype(np.float32)
+# # From ex6Part2 (Lab 6 of Introduction to AI module)
+# # Convert a Pandas dataframe to the x,y inputs that TensorFlow needs
+# def to_xy(df, target):
+#     result = []
+#     for x in df.columns:
+#         if x != target:
+#             result.append(x)
+#     # find out the type of the target column.  Is it really this hard? :(
+#     target_type = df[target].dtypes
+#     target_type = target_type[0] if hasattr(
+#         target_type, '__iter__') else target_type
+#     # Encode to int for classification, float otherwise. TensorFlow likes 32 bits.
+#     if target_type in (np.int64, np.int32):
+#         # Classification
+#         dummies = pd.get_dummies(df[target])
+#         return df[result].values.astype(np.float32), dummies.values.astype(np.float32)
+#     # Regression
+#     return df[result].values.astype(np.float32), df[[target]].values.astype(np.float32)
 
 
 # A function that takes the encoded data in, and returns the data "binarified"
