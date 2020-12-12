@@ -10,7 +10,7 @@ from sklearn import metrics
 
 # A function that takes the data in, and cleans it
 
-def data_cleaner(data):
+def data_cleaner(data, numerify_dates=False):
     # Programatically remove the columns:
     #   - "Outcome linked to object of search"
     #   - "Removal of more than just outer clothing".
@@ -27,6 +27,9 @@ def data_cleaner(data):
     # Change the "Date" column to type DateTime
     data['Date'] = pd.to_datetime(data['Date'])
 
+    if numerify_dates:
+        data['Date'] = pd.to_numeric(data['Date'])
+
     # Remove Oct-17 values in Age ranges
     # Reference for dictionary idea to replace values: https://stackoverflow.com/questions/17114904/python-pandas-replacing-strings-in-dataframe-with-numbers
     oct17_to_None = {"Oct-17": None}
@@ -41,13 +44,16 @@ def data_cleaner(data):
 
 # A function that takes the data in and encodes all non-numerals
 
-def data_encoder(data):
+def data_encoder(data, encode_dates=True):
     # Build a dictionary of Encoders
     encoders = {}
 
     # List the categorical cols
-    categorical_cols = ["Type", "Date", "Gender", "Age range",
+    categorical_cols = ["Type", "Gender", "Age range",
                         "Officer-defined ethnicity", "Legislation", "Object of search", "Outcome"]
+
+    if encode_dates:
+        categorical_cols.append("Date")
 
     # Build an encoder for each categorical_col, and fit it to the values under that column
     for label in categorical_cols:
@@ -153,30 +159,10 @@ def k_fold_train(model, data, folds=5, is_NN=False, verbose=0, epochs=128):
                 f"Fold #{fold}, Training Size: {len(train_DF)}, Validation Size: {len(test_DF)}")
             print(
                 f"Training Score: {model.score(x_train_kfold, y_train_kfold)}")
-            print(f"Testig Score: {model.score(x_test_kfold, y_test_kfold)}")
+            print(f"Testing Score: {model.score(x_test_kfold, y_test_kfold)}")
             print("\n")
 
         fold += 1
-
-
-# # From ex6Part2 (Lab 6 of Introduction to AI module)
-# # Convert a Pandas dataframe to the x,y inputs that TensorFlow needs
-# def to_xy(df, target):
-#     result = []
-#     for x in df.columns:
-#         if x != target:
-#             result.append(x)
-#     # find out the type of the target column.  Is it really this hard? :(
-#     target_type = df[target].dtypes
-#     target_type = target_type[0] if hasattr(
-#         target_type, '__iter__') else target_type
-#     # Encode to int for classification, float otherwise. TensorFlow likes 32 bits.
-#     if target_type in (np.int64, np.int32):
-#         # Classification
-#         dummies = pd.get_dummies(df[target])
-#         return df[result].values.astype(np.float32), dummies.values.astype(np.float32)
-#     # Regression
-#     return df[result].values.astype(np.float32), df[[target]].values.astype(np.float32)
 
 
 # A function that takes the encoded data in, and returns the data "binarified"
