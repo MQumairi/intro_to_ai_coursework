@@ -91,11 +91,11 @@ police_actions_simple = ["Article Found", "Resolved", "Nothing",
                          "Cautioned", "Drug Warning", "Penalty Notice", "Arrested", "Summonsed"]
 
 
-def confusion_plot(y_test, y_predictions, target_classes=police_actions_simple, title="Confusion Matrix", normalize=True):
+def confusion_plot(y_test, y_predictions, target_classes=police_actions_simple, title="Confusion Matrix", fontsize=18, normalize=True):
     cm = confusion_matrix(y_test, y_predictions)
     np.set_printoptions(precision=2)
     plt.figure(figsize=(16, 10))
-    plt.rcParams.update({'font.size': 18})
+    plt.rcParams.update({'font.size': fontsize})
     if(normalize):
         cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
         plot_confusion_matrix(cm_normalized, target_classes,

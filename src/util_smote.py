@@ -9,7 +9,7 @@ from imblearn.pipeline import Pipeline
 # If you set the plot parameter to "True", the function will also graph the frequencies for a pictorial veiw of any imbalance
 
 
-def display_frequencies(target=None, plot=True, figsize=(10, 8)):
+def display_frequencies(target=None, plot=True, figsize=(10, 8), title="Frequency of Target Classes in Dataset", fontsize=18):
     labels, frequencies = np.unique(target, return_counts=True)
 
     for i in range(len(labels)):
@@ -21,9 +21,10 @@ def display_frequencies(target=None, plot=True, figsize=(10, 8)):
     print(f"Total: {np.sum(frequencies)}")
     if(plot):
         plt.figure(figsize=figsize)
+        plt.rcParams.update({'font.size': fontsize})
         plt.xlabel("Class")
         plt.ylabel("Frequency")
-        plt.title("Frequency of Target Classes in Dataset")
+        plt.title(title)
         plt.bar(labels, frequencies)
         plt.show
 
