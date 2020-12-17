@@ -28,10 +28,11 @@ def display_frequencies(target=None, plot=True, figsize=(10, 8), title="Frequenc
         plt.bar(labels, frequencies)
         plt.show
 
-
 # A function that takes in your X_train and y_train, and outputs over-sampled versions of the training set.
 # You can specify how much each class can be over-sampled by passing in a sampling_strategy.
 # Your sampling strategy will be a dictionary mapping the class (0, 1, 2, 3, 4, 5, 6, 7) to the frequency you wish for this class in the dataset.
+
+
 def smote_data(X, y, sampling_strategy=None):
     if(sampling_strategy is None):
         oversample = SMOTE()
