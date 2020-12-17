@@ -74,12 +74,12 @@ def data_encoder(data, encode_dates=True):
 
 # A function that plots a confusion matrix
 # Retrieved from ex3Part2 (Lab 3) of the intro to AI module
-def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues):
+def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues, rotation=90):
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
     plt.colorbar(fraction=0.05)
     tick_marks = np.arange(len(names))
-    plt.xticks(tick_marks, names, rotation=90)
+    plt.xticks(tick_marks, names, rotation=rotation)
     plt.yticks(tick_marks, names)
     plt.tight_layout()
     plt.ylabel('True label')
@@ -91,7 +91,7 @@ police_actions_simple = ["Article Found", "Resolved", "Nothing",
                          "Cautioned", "Drug Warning", "Penalty Notice", "Arrested", "Summonsed"]
 
 
-def confusion_plot(y_test, y_predictions, target_classes=police_actions_simple, title="Confusion Matrix", fontsize=18, normalize=True):
+def confusion_plot(y_test, y_predictions, target_classes=police_actions_simple, title="Confusion Matrix", fontsize=18, normalize=True, rotation=90):
     cm = confusion_matrix(y_test, y_predictions)
     np.set_printoptions(precision=2)
     plt.figure(figsize=(16, 10))
@@ -99,10 +99,10 @@ def confusion_plot(y_test, y_predictions, target_classes=police_actions_simple, 
     if(normalize):
         cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
         plot_confusion_matrix(cm_normalized, target_classes,
-                              title=title)
+                              title=title, rotation=rotation)
     else:
         plot_confusion_matrix(cm, target_classes,
-                              title=title)
+                              title=title, rotation=rotation)
     plt.show()
 
 
