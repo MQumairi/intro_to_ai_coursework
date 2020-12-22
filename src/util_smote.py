@@ -41,6 +41,10 @@ def smote_data(X, y, sampling_strategy=None):
     X_smoted, y_smoted = oversample.fit_resample(X, y)
     return X_smoted, y_smoted
 
+# A function that takes in your X_train and y_train, as well as a majority multiplier.
+# It will then scale the majority scale by a value equal to the majority multiplier.
+# e.g. if majority_multiplier is 0.5, the frequency of the majority class will be cut in half.
+
 
 def under_sample(X, y, majority_multiplier=0.5):
     labels, frequencies = np.unique(y, return_counts=True)
