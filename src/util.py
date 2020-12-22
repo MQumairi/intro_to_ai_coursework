@@ -86,9 +86,11 @@ def plot_confusion_matrix(cm, names, title='Confusion matrix', cmap=plt.cm.Blues
     plt.xlabel('Predicted label')
 
 
-# A function that takes in y_test, model predictions, and a list of target classes, and plots a confusion matrix
 police_actions_simple = ["Article Found", "Resolved", "Nothing",
                          "Cautioned", "Drug Warning", "Penalty Notice", "Arrested", "Summonsed"]
+
+# A function that takes in y_test, model predictions, and a list of target classes, and plots a confusion matrix
+# (makes use of plot_confusion_matrix and police_actions_simple)
 
 
 def confusion_plot(y_test, y_predictions, target_classes=police_actions_simple, title="Confusion Matrix", fontsize=18, normalize=True, rotation=90):
@@ -159,7 +161,7 @@ def k_fold_train(model, data, folds=5, is_NN=False, verbose=0, epochs=128):
         fold += 1
 
 
-# A function that takes the encoded data in, and returns the data "binarified"
+# A function that takes the encoded data in, and returns the data "binarified" (minority classes combined into a single target class)
 def binarify_from_raw(data, nothing_value=0):
     # Replace all values in Outcome column, with 0 if "Nothing found - no further action", else 1.
     # Reference for dictionary idea to replace values: https://stackoverflow.com/questions/17114904/python-pandas-replacing-strings-in-dataframe-with-numbers
@@ -178,7 +180,7 @@ def binarify_from_raw(data, nothing_value=0):
     return data_binary
 
 
-# A function that takes the encoded data in, and returns the data "binarified"
+# A function that takes the encoded data in, and returns the data "binarified" (minority classes combined into a single target class)
 def binarify_from_encoded(data, nothing_value=0):
     # Reference for dictionary idea to replace values: https://stackoverflow.com/questions/17114904/python-pandas-replacing-strings-in-dataframe-with-numbers
     outcome_splitter = {
@@ -194,6 +196,9 @@ def binarify_from_encoded(data, nothing_value=0):
     data_binary = data.applymap(lambda s: outcome_splitter.get(
         s) if s in outcome_splitter else s)
     return data_binary
+
+# A function that takes the target column in, and plots a pie chart to visualize the frequency of target classes
+# Code taken from matplotlib documentation: https://matplotlib.org/3.1.1/gallery/pie_and_polar_charts/pie_features.html
 
 
 def pie_chart_y(y, title="Ratio of Classes"):
